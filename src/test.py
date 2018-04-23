@@ -1,21 +1,24 @@
-from layout import Layout
+from layout import Layout, FieldLayout
 from os import listdir
 import glob
-from layout import Layout, FieldLayout
+import layout
 
-l = Layout('tb_proc.txt', "co_pro", 10, 1, 5, 'varchar2')
+
+listField = []
 
 # l.print_obj()
 
 # print(listdir('C:\\dev\\tests-siagen\\exportado'))
 # print(glob.glob('C:\\dev\\tests-siagen\\exportado\\*_layout.txt'))
-la = Layout[]
+field = FieldLayout('co_desc', 1, 10, 20, 'varchar2')
+field2 = FieldLayout('no_desc', 1, 10, 20, 'varchar2')
 
-field = FieldLayout('', 1, 10, 20, 'varchar2')
+listField.append(field)
+listField.append(field2)
 
-la.append(field)
+layout = Layout('tb_proc.txt', listField)
 
-print(la)
+layout.print_obj()
 
 
 

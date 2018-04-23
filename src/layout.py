@@ -14,13 +14,13 @@ class FieldLayout:
         print('end: ' + str(self.end))
         print('field_type: ' + self.field_type)
 
+
 class Layout:
-    """ Layout class """
-    def __init__(self, filename, listFieldLayout):
+
+    def __init__(self, filename, list_field):
         self.filename = filename
-        self.listFieldLayout = listFieldLayout
+        self.list_field = list_field
          
-    def print_obj(self)
+    def print_obj(self):
         print('filename: ' + self.filename)
-        print('lista fields: ' + self.listfield) 
-    
+        print('lista fields: ' + str(len(self.list_field)))

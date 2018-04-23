@@ -3,8 +3,14 @@ import zipfile
 import os
 from os import path
 import glob
+from layout import FieldLayout, Layout
 
 import const
+
+def gerar_json(layout):
+    print('tamanho do layout: ' + str(len(layout)))
+
+
 
 def main():
     parser = argparse.ArgumentParser(prog='sia-gen', description='SIA zip file to descompress')
@@ -13,7 +19,7 @@ def main():
 
     args = parser.parse_args()
     
-    if  not (zipfile.is_zipfile(args.filename)):
+    if not (zipfile.is_zipfile(args.filename)):
         print(const.INVALID_FILENAME % args.filename)
         return False
 
@@ -29,13 +35,23 @@ def main():
     filterFile = args.folder + '*_layout.txt'
     print(filterFile)
     listaLayout = glob.iglob(filterFile)
+
+    fields_layout = []
+    layout = Layout(filterFile, fields_layout)
     for lay in listaLayout:
         print('>: ' + lay)
-        f = open(lay, "r", encoding="utf-8")
-        print(f.readline())
-    
+        layout_file = open(lay, "r", encoding="utf-8")
+        content_file = layout_file.readlines()
 
+        for i in range(1, len(content_file)):
+            list_fields = content_file[i].split(',')
+            field = FieldLayout(list_fields[0], list_fields[1], list_fields[2], list_fields[3], list_fields[4])
+            fields_layout.append(field)
+            #print(list(a))
+
+        gerar_json(fields_layout)
+    
 
 if __name__ == '__main__':
     main()
-# print(args.filename)
+
