@@ -7,13 +7,50 @@ from layout import FieldLayout, Layout
 
 import const
 
-def gerar_json(layout):
-    print('tamanho do layout: ' + str(len(layout)))
 
+def gerar_json(layout):
+    print('tamanho do layout: ' + str(len(layout.list_field)))
+    arquivo = layout.filename.replace('_layout', '')
+    try:
+        arq_lay = open(arquivo, 'r')
+        print(arq_lay.name)
+
+        str_json = str('[')
+
+        content_file = arq_lay.readlines()
+        for idx, line in enumerate(content_file):
+            str_json += '{'.expandtabs(4)
+            for i in range(len(layout.list_field)):
+                name = layout.list_field[i].field_name.lower()
+                start = int(layout.list_field[i].field_pos_start)-1
+                end = int(layout.list_field[i].field_pos_end)
+                value = '\"' + line[start:end].strip() + '\"'
+
+                str_json += '\"' + name + '\": ' + value
+
+                if i < len(layout.list_field) - 1:
+                    str_json += ','
+
+            str_json += '}'
+            if idx < len(content_file) - 1:
+                str_json += ','
+        str_json += ']'
+
+        a = open(arquivo.replace('.txt', '') + '.json', 'w')
+        a.write(str_json)
+        print(str_json)
+
+    except IOError as err1:
+        print('File not found: ' + str(err1))
+        pass
+    except BaseException as err2:
+        print('erro: ' + str(err2))
+
+    # salvar .json
 
 
 def main():
-    parser = argparse.ArgumentParser(prog='sia-gen', description='SIA zip file to descompress')
+    parser = argparse.ArgumentParser(prog='sigtap-gen', description='SIGTAP json generator')
     parser.add_argument('filename', help=const.HELP_ARGS_FILENAME)
     parser.add_argument('folder', help=const.HELP_ARGS_FOLDER)
 
@@ -32,24 +69,25 @@ def main():
 
     print('extraido, sem erros')
 
-    filterFile = args.folder + '*_layout.txt'
-    print(filterFile)
-    listaLayout = glob.iglob(filterFile)
+    filter_file = args.folder + '*_layout.txt'
+    print(filter_file)
+    lista_layout = glob.iglob(filter_file)
 
     fields_layout = []
-    layout = Layout(filterFile, fields_layout)
-    for lay in listaLayout:
-        print('>: ' + lay)
+    layout = Layout(None, fields_layout)
+    for lay in lista_layout:
+        print('> ' + lay)
         layout_file = open(lay, "r", encoding="utf-8")
+        layout.filename = layout_file.name
         content_file = layout_file.readlines()
 
         for i in range(1, len(content_file)):
             list_fields = content_file[i].split(',')
             field = FieldLayout(list_fields[0], list_fields[1], list_fields[2], list_fields[3], list_fields[4])
             fields_layout.append(field)
-            #print(list(a))
+            # print(list(a))
 
-        gerar_json(fields_layout)
+        gerar_json(layout)
     
 
 if __name__ == '__main__':

@@ -1,7 +1,4 @@
 from layout import Layout, FieldLayout
-from os import listdir
-import glob
-import layout
 
 
 listField = []
@@ -16,9 +13,9 @@ field2 = FieldLayout('no_desc', 1, 10, 20, 'varchar2')
 listField.append(field)
 listField.append(field2)
 
-layout = Layout('tb_proc.txt', listField)
+obj1 = Layout('tb_proc.txt', listField)
 
-layout.print_obj()
+obj1.print_obj()
 
 
 
