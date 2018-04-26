@@ -17,6 +17,8 @@ class FieldLayout:
 
 class Layout:
 
+    list_field = []
+
     def __init__(self, filename, list_field):
         self.filename = filename
         self.list_field = list_field

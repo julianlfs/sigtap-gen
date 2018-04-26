@@ -40,13 +40,11 @@ def gerar_json(layout):
         a.write(str_json)
         print(str_json)
 
-    except IOError as err1:
-        print('File not found: ' + str(err1))
+    except IOError as err:
+        print('File not found: ' + str(err))
         pass
-    except BaseException as err2:
-        print('erro: ' + str(err2))
-
-    # salvar .json
+    except BaseException as err:
+        print('Error: ' + str(err))
 
 
 def main():
@@ -73,9 +71,9 @@ def main():
     print(filter_file)
     lista_layout = glob.iglob(filter_file)
 
-    fields_layout = []
-    layout = Layout(None, fields_layout)
     for lay in lista_layout:
+        fields_layout = []
+        layout = Layout(None, fields_layout)
         print('> ' + lay)
         layout_file = open(lay, "r", encoding="utf-8")
         layout.filename = layout_file.name
@@ -85,7 +83,6 @@ def main():
             list_fields = content_file[i].split(',')
             field = FieldLayout(list_fields[0], list_fields[1], list_fields[2], list_fields[3], list_fields[4])
             fields_layout.append(field)
-            # print(list(a))
 
         gerar_json(layout)
     
