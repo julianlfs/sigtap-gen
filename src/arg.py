@@ -8,6 +8,10 @@ from layout import FieldLayout, Layout
 import const
 
 
+def processDateType(value, data_type):
+    if data_type == 'NUMBER':
+        return ''
+
 def gerar_json(layout):
     print('tamanho do layout: ' + str(len(layout.list_field)))
     arquivo = layout.filename.replace('_layout', '')
@@ -24,7 +28,8 @@ def gerar_json(layout):
                 name = layout.list_field[i].field_name.lower()
                 start = int(layout.list_field[i].field_pos_start)-1
                 end = int(layout.list_field[i].field_pos_end)
-                value = '\"' + line[start:end].strip() + '\"'
+                # value = processDateType(line[start:end], layout.list_field[i].field_type)
+                value = layout.list_field[i].process(line[start:end])
 
                 str_json += '\"' + name + '\": ' + value
 

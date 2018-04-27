@@ -14,6 +14,14 @@ class FieldLayout:
         print('end: ' + str(self.field_pos_end))
         print('field_type: ' + self.field_type)
 
+    def process(self, value):
+        if self.field_type == 'NUMBER':
+            return value
+
+        if self.field_type == 'VARCHAR2':
+            return '\"' + value.strip() + '\"'
+
+
 
 class Layout:
 
