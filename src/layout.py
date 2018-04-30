@@ -18,8 +18,7 @@ class FieldLayout:
         if self.field_type == 'NUMBER':
             return value
 
-        if self.field_type == 'VARCHAR2':
-            return '\"' + value.strip() + '\"'
+        return '\"' + value.strip() + '\"'
 
 
 
